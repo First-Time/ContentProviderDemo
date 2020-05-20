@@ -6,6 +6,7 @@ import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
+import android.provider.BaseColumns._ID
 import com.lyf.contentprovider.Students.Companion.AUTHORITY
 import com.lyf.contentprovider.Students.Companion.TABLE_NAME
 
@@ -56,7 +57,7 @@ class StudentContentProvider : ContentProvider() {
                 studentOpenHelper.writableDatabase.delete(TABLE_NAME, selection, selectionArgs)
             STUDENT -> {
                 val id = ContentUris.parseId(uri)
-                var whereClause = "${Students.Student()._ID} = $id"
+                var whereClause = "$_ID = $id"
                 if (selection != null && selection != "") {
                     whereClause = "$whereClause and $selection"
                 }
@@ -85,7 +86,7 @@ class StudentContentProvider : ContentProvider() {
             )
             STUDENT -> {
                 val id = ContentUris.parseId(uri)
-                var whereClause = "${Students.Student()._ID} = $id"
+                var whereClause = "$_ID = $id"
                 if (selection != null && selection != "") {
                     whereClause = "$whereClause and $selection"
                 }
@@ -116,7 +117,7 @@ class StudentContentProvider : ContentProvider() {
             )
             STUDENT -> {
                 val id = ContentUris.parseId(uri)
-                var whereClause = "${Students.Student()._ID} = $id"
+                var whereClause = "$_ID = $id"
                 if (selection != null && selection != "") {
                     whereClause = "$whereClause and $selection"
                 }

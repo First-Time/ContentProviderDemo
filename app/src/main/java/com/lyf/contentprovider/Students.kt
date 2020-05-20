@@ -10,7 +10,6 @@ class Students {
     }
 
     class Student : BaseColumns {
-        val _ID = "_id"
         val NAME = "student_name"
         val AGE = "student_age"
 
