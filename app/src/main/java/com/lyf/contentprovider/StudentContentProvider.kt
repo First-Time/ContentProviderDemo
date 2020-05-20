@@ -44,6 +44,8 @@ class StudentContentProvider : ContentProvider() {
                 if (rowId > 0) {
                     studentUri = ContentUris.withAppendedId(uri, rowId)
                 }
+                studentUri?.let { context?.contentResolver?.notifyChange(it, null) }
+//                context?.contentResolver?.notifyChange(uri, null)
                 studentUri
             }
             else -> throw IllegalArgumentException("未知Uri：$uri")
@@ -69,6 +71,7 @@ class StudentContentProvider : ContentProvider() {
             }
             else -> throw IllegalArgumentException("未知Uri：$uri")
         }
+        context?.contentResolver?.notifyChange(uri, null)
         return num
     }
 
@@ -98,6 +101,7 @@ class StudentContentProvider : ContentProvider() {
                 )
             }
         }
+        context?.contentResolver?.notifyChange(uri, null)
         return num
     }
 

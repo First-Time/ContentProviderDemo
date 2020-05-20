@@ -1,5 +1,6 @@
-package com.lyf.contentresolver
+package com.lyf.contentprovider
 
+import android.content.ContentUris
 import android.content.ContentValues
 import android.database.ContentObserver
 import android.database.Cursor
@@ -9,9 +10,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_content_resolver.*
 
-class MainActivity : AppCompatActivity() {
+class ContentResolverActivity : AppCompatActivity() {
+
     private lateinit var layoutManager: RecyclerView.LayoutManager
     private lateinit var mAdapter: BasicAdapter
     private var dataList: MutableList<InfoModel> = mutableListOf()
@@ -19,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_content_resolver)
 
         layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
@@ -33,6 +35,12 @@ class MainActivity : AppCompatActivity() {
 
         contentResolver.registerContentObserver(
             Students.Student().CONTENT_URI_STUDENTS,
+            true,
+            studentObserver
+        )
+
+        contentResolver.registerContentObserver(
+            Students.Student().CONTENT_URI_STUDENT,
             true,
             studentObserver
         )
@@ -51,7 +59,18 @@ class MainActivity : AppCompatActivity() {
             contentValues.put(Students.Student().NAME, etName.text.toString())
             contentValues.put(Students.Student().AGE, etAge.text.toString().toInt())
             contentResolver.insert(Students.Student().CONTENT_URI_STUDENTS, contentValues)
-            Toast.makeText(this@MainActivity, "添加用户信息成功", Toast.LENGTH_SHORT)
+            Toast.makeText(this@ContentResolverActivity, "添加用户信息成功", Toast.LENGTH_SHORT)
+        }
+
+        btnUpdate.setOnClickListener {
+            var contentValues = ContentValues()
+            contentValues.put(Students.Student().AGE, 66)
+            contentResolver.update(
+                ContentUris.withAppendedId(Students.Student().CONTENT_URI_STUDENT, 2),
+                contentValues,
+                null,
+                null
+            )
         }
 
         btnSearch.setOnClickListener {

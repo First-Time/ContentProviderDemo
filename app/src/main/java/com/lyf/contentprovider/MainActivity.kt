@@ -18,5 +18,9 @@ class MainActivity : AppCompatActivity() {
         btnUri.setOnClickListener {
             startActivity(Intent(this, UriActivity::class.java))
         }
+
+        btnContentResolver.setOnClickListener {
+            startActivity(Intent(this, ContentResolverActivity::class.java))
+        }
     }
 }
